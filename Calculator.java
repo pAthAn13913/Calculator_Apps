@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 
 
 public class Calculator extends JFrame {
-    double r1, r2,r3, flag;
-    double r4,r6;
+
     JFrame frame;
-    JTextField tf1, tf2, tf3;
-    Font f1,f2;
     Container c;
+    JTextField tf1, tf2, tf3;
     JButton one, two, three, four,five,six,seven,eight,nin,zeto, plus, minus,multi,div,clear, point ,delet ,percent ,equal;
+    Font f1,f2;
+    double forPlus, forMinus, forMulti, forDiv, forPercent, flag;
     Calculator() {
 
         frame = new JFrame("Calculator");
@@ -156,52 +156,12 @@ public class Calculator extends JFrame {
                 tf3.setText(tf3.getText() + "0");
             }
         });
-        clear.addActionListener(new ActionListener() {
+        point.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tf1.setText("");
-                tf2.setText("");
-                tf3.setText("");
-            }
-        });
-        plus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flag = 1;
-                r1 = Double.parseDouble(tf1.getText());
-                tf3.setText("");
-                tf2.setText(r1 + "");
-                tf1.setText(tf1.getText() + "+");
-            }
-        });
-        minus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flag = -1;
-                r2 = Double.parseDouble(tf1.getText());
-                tf3.setText("");
-                tf2.setText(r2 + "");
-                tf1.setText(tf1.getText() + "-");
-            }
-        });
-        multi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flag = 2;
-                r3 = Double.parseDouble(tf1.getText());
-                tf3.setText("");
-                tf2.setText(r3 + "");
-                tf1.setText(tf1.getText() + "*");
-            }
-        });
-        div.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flag = -2;
-                r4 = Double.parseDouble(tf1.getText());
-                tf3.setText("");
-                tf2.setText(r4 + "");
-                tf1.setText(tf1.getText() + "/");
+
+                tf1.setText(tf1.getText() + ".");
+                tf3.setText(tf3.getText() + ".");
             }
         });
         delet.addActionListener(new ActionListener() {
@@ -214,24 +174,68 @@ public class Calculator extends JFrame {
                 String newString2= currentString2.substring(0,currentString2.length()-1);
                 tf3.setText(newString2);
             }
-      });
+        });
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tf1.setText("");
+                tf2.setText("");
+                tf3.setText("");
+            }
+        });
+        plus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flag = 1;
+                forPlus = Double.parseDouble(tf1.getText());
+                tf3.setText("");
+                tf2.setText(forPlus + "");
+                tf1.setText(tf1.getText() + "+");
+            }
+        });
+        minus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flag = -1;
+                forMinus = Double.parseDouble(tf1.getText());
+                tf3.setText("");
+                tf2.setText(forMinus + "");
+                tf1.setText(tf1.getText() + "-");
+            }
+        });
+        multi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flag = 2;
+                forMulti = Double.parseDouble(tf1.getText());
+                tf3.setText("");
+                tf2.setText(forMulti + "");
+                tf1.setText(tf1.getText() + "*");
+            }
+        });
+        div.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flag = -2;
+                forDiv = Double.parseDouble(tf1.getText());
+                tf3.setText("");
+                tf2.setText(forDiv + "");
+                tf1.setText(tf1.getText() + "/");
+            }
+        });
         percent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                r6 = Double.parseDouble(tf1.getText());
-                tf3.setText("");
-                tf2.setText(r6 + "");
-                tf1.setText(tf1.getText() + "%");
-                r6=r6*(1.0/100);
-                tf1.setText(r6+"");
-            }
-        });
-        point.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                tf1.setText(tf1.getText() + ".");
-                tf3.setText(tf3.getText() + ".");
+                if(flag==0) {
+                    forPercent = Double.parseDouble(tf1.getText())/100.0;
+                    tf1.setText(forPercent+"");
+                }else {
+
+                    flag=5;
+                    tf1.setText(tf1.getText() + "%");
+                    forPercent = (Double.parseDouble(tf2.getText())*Double.parseDouble(tf3.getText()))/100.0;
+                }
             }
         });
         equal.addActionListener(new ActionListener() {
@@ -240,53 +244,71 @@ public class Calculator extends JFrame {
 
                 if (flag == 1) {
 
-
-
-                    double result = r1 + Double.parseDouble(tf3.getText());
+                    double result = forPlus + Double.parseDouble(tf3.getText());
                     if(result == (int)result) {
                         tf2.setText((int)result + "");
                         tf1.setText((int)result + "");
+                        flag=0;
                     }else {
 
                         tf2.setText(result + "");
                         tf1.setText(result + "");
+                        flag=0;
                     }
-
                 }
                 else if (flag == -1) {
 
-                    double result = r2 - Double.parseDouble(tf3.getText());
+                    double result = forMinus - Double.parseDouble(tf3.getText());
                     if(result == (int)result) {
                         tf2.setText((int)result + "");
                         tf1.setText((int)result + "");
+                        flag=0;
                     }else {
 
                         tf2.setText(result + "");
                         tf1.setText(result + "");
+                        flag=0;
                     }
                 }
                 else if (flag == 2) {
 
-                    double result = r3 * Double.parseDouble(tf3.getText());
+                    double result = forMulti * Double.parseDouble(tf3.getText());
                     if(result == (int)result) {
                         tf2.setText((int)result + "");
                         tf1.setText((int)result + "");
+                        flag=0;
                     }else {
 
                         tf2.setText(result + "");
                         tf1.setText(result + "");
+                        flag=0;
                     }
                 }
                 else if (flag == -2) {
 
-                    double result = ((double)r4) / Double.parseDouble(tf3.getText());
+                    double result = forDiv / Double.parseDouble(tf3.getText());
                     if(result == (int)result) {
                         tf2.setText((int)result + "");
                         tf1.setText((int)result + "");
+                        flag=0;
                     }else {
 
                         tf2.setText(result + "");
                         tf1.setText(result + "");
+                        flag=0;
+                    }
+                }
+                else if (flag == 5) {
+
+                    if(forPercent == (int)forPercent) {
+                        tf2.setText((int)forPercent + "");
+                        tf1.setText((int)forPercent + "");
+                        flag=0;
+                    }else {
+
+                        tf2.setText(forPercent + "");
+                        tf1.setText(forPercent + "");
+                        flag=0;
                     }
                 }
             }
